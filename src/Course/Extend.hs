@@ -1,26 +1,26 @@
-{-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE InstanceSigs #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE NoImplicitPrelude #-}
 
 module Course.Extend where
 
 import Course.Core
 import Course.ExactlyOne
+import Course.Functor
 import Course.List
 import Course.Optional
-import Course.Functor
 
 -- | All instances of the `Extend` type-class must satisfy one law. This law
 -- is not checked by the compiler. This law is given as:
 --
 -- * The law of associativity
 --   `∀f g. (f <<=) . (g <<=) ≅ (<<=) (f . (g <<=))`
-class Functor k => Extend k where
+class (Functor k) => Extend k where
   -- Pronounced, extend.
   (<<=) ::
-    (k a -> b)
-    -> k a
-    -> k b
+    (k a -> b) ->
+    k a ->
+    k b
 
 infixr 1 <<=
 
@@ -30,9 +30,9 @@ infixr 1 <<=
 -- ExactlyOne (ExactlyOne 7)
 instance Extend ExactlyOne where
   (<<=) ::
-    (ExactlyOne a -> b)
-    -> ExactlyOne a
-    -> ExactlyOne b
+    (ExactlyOne a -> b) ->
+    ExactlyOne a ->
+    ExactlyOne b
   (<<=) =
     error "todo: Course.Extend (<<=)#instance ExactlyOne"
 
@@ -48,9 +48,9 @@ instance Extend ExactlyOne where
 -- [[[4,5,6],[1,2,3]],[[4,5,6]]]
 instance Extend List where
   (<<=) ::
-    (List a -> b)
-    -> List a
-    -> List b
+    (List a -> b) ->
+    List a ->
+    List b
   (<<=) =
     error "todo: Course.Extend (<<=)#instance List"
 
@@ -63,9 +63,9 @@ instance Extend List where
 -- Empty
 instance Extend Optional where
   (<<=) ::
-    (Optional a -> b)
-    -> Optional a
-    -> Optional b
+    (Optional a -> b) ->
+    Optional a ->
+    Optional b
   (<<=) =
     error "todo: Course.Extend (<<=)#instance Optional"
 
@@ -83,8 +83,8 @@ instance Extend Optional where
 -- >>> cojoin Empty
 -- Empty
 cojoin ::
-  Extend k =>
-  k a
-  -> k (k a)
+  (Extend k) =>
+  k a ->
+  k (k a)
 cojoin =
   error "todo: Course.Extend#cojoin"
